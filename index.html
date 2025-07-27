@@ -8,40 +8,11 @@
   <link rel="manifest" href="manifest.json">
 
 </head>
-<body>
-  <div class="container">
-    <h1>🎮 VB AI Gaming Settings</h1>
-
-    <div class="selector">
-      <label for="brand">📱 Select Brand</label>
-      <select id="brand" onchange="loadModels()">
-        <option value="">-- Select Brand --</option>
-        <option value="Redmi">Redmi</option>
-        <option value="Vivo">Vivo</option>
-        <option value="Oppo">Oppo</option>
-        <option value="Samsung">Samsung</option>
-        <option value="Realme">Realme</option>
-        <option value="iQOO">iQOO</option>
-        <option value="Motorola">Motorola</option>
-        <option value="Apple">Apple</option>
-        <option value="Nothing">Nothing</option>
-        <option value="Infinix">Infinix</option>
-        <option value="OnePlus">OnePlus</option>
-      </select>
-    </div>
-
-    <div class="selector">
-      <label for="model">📲 Select Model</label>
-      <select id="model">
-        <option value="">-- Select Model --</option>
-      </select>
-    </div>
-
-    <button onclick="showSettings()">🔍 Show AI Sensitivity</button>
-
-    <div id="output" class="output"></div>
-  </div>
-
+  <body>
+  <div id="textDisplay">Loading...</div>
+  <input type="text" id="inputField" autocomplete="off" />
+  <div id="status"></div>
+  <button onclick="restartGame()">Restart Game</button>
   <script src="script.js"></script>
 </body>
 </html>
