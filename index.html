@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Realistic Business Demo</title>
+<title>Demo Trading Platform Auto Users</title>
 <style>
-body{margin:0;padding:0;font-family:Arial,sans-serif;background:#0e0f14;color:#eee;}
-#sidebar{position:fixed;left:0;top:0;width:60px;height:100vh;background:#111;display:flex;flex-direction:column;align-items:center;padding:10px;}
+body{margin:0;padding:0;font-family:Arial,sans-serif;background:#0c0d13;color:#eee;}
+#sidebar{position:fixed;left:0;top:0;width:60px;height:100vh;background:#111;display:flex;flex-direction:column;align-items:center;padding:10px;z-index:10;}
 #sidebar button{background:none;border:none;color:#888;font-size:24px;margin:15px 0;cursor:pointer;transition:0.3s;}
 #sidebar button.active,#sidebar button:hover{color:#0af;}
 #content{margin-left:60px;padding:10px;}
@@ -14,19 +14,19 @@ body{margin:0;padding:0;font-family:Arial,sans-serif;background:#0e0f14;color:#e
 .section.active{display:block;}
 .card{background:#1a1b23;padding:15px;border-radius:10px;margin-bottom:15px;box-shadow:0 0 10px #0005;}
 .card-title{font-weight:bold;color:#0af;margin-bottom:10px;font-size:14px;}
-.card-value{font-size:20px;font-weight:bold;color:#0ff;}
-.bar-container{display:flex;align-items:flex-end;height:150px;background:#111;margin-top:10px;border-radius:5px;padding:5px;}
-.bar{flex:1;margin:0 2px;background:#0af;border-radius:3px;transition:0.8s ease height;}
-.bar.red{background:#f33;}
+.card-value{font-size:18px;font-weight:bold;color:#0ff;}
 table{width:100%;border-collapse:collapse;margin-top:10px;}
 table th,table td{padding:5px;text-align:center;font-size:12px;}
 table th{background:#222;}
 table td{background:#1a1b23;color:#eee;border-bottom:1px solid #333;}
+input,button{padding:5px;margin:2px;}
+.bar-container{display:flex;align-items:flex-end;height:100px;background:#111;margin-top:5px;border-radius:3px;padding:3px;}
+.bar{flex:1;margin:0 1px;background:#0af;border-radius:2px;transition:0.5s height;}
+.bar.red{background:#f33;}
 @media(max-width:768px){
   #sidebar{width:50px;}
-  #content{margin-left:50px;padding:10px;}
-  .card-value{font-size:16px;}
-  .card-title{font-size:12px;}
+  #content{margin-left:50px;padding:5px;}
+  .card-value{font-size:14px;}
 }
 </style>
 </head>
@@ -34,42 +34,63 @@ table td{background:#1a1b23;color:#eee;border-bottom:1px solid #333;}
 
 <div id="sidebar">
   <button class="tabBtn active" data-target="dashboard">&#128200;</button>
-  <button class="tabBtn" data-target="moneyflow">&#128176;</button>
-  <button class="tabBtn" data-target="admin">&#128179;</button>
+  <button class="tabBtn" data-target="trade">&#128181;</button>
+  <button class="tabBtn" data-target="ipo">&#128176;</button>
+  <button class="tabBtn" data-target="admin">&#128274;</button>
 </div>
 
 <div id="content">
 
 <div id="dashboard" class="section active">
   <div class="card">
-    <div class="card-title">Total Income</div>
-    <div class="card-value" id="totalIncome">₹100000</div>
-    <div class="bar-container" id="incomeBars"></div>
-  </div>
-  <div class="card">
-    <div class="card-title">Total Loss</div>
-    <div class="card-value" id="totalLoss">₹5000</div>
-    <div class="bar-container" id="lossBars"></div>
+    <div class="card-title">Total Market Value</div>
+    <div class="card-value" id="marketValue">₹0</div>
+    <div class="bar-container" id="marketBars"></div>
   </div>
 </div>
 
-<div id="moneyflow" class="section">
+<div id="trade" class="section">
   <div class="card">
-    <div class="card-title">Money Flow</div>
+    <div class="card-title">Stocks Trading</div>
+    <div>Total Demo Balance: ₹<span id="demoBalance">1000000</span></div>
     <table>
-      <thead><tr><th>User</th><th>Investment</th><th>Profit/Loss</th></tr></thead>
-      <tbody id="moneyTable"></tbody>
+      <thead><tr><th>Stock</th><th>Price</th><th>Buy</th><th>Sell</th></tr></thead>
+      <tbody id="stockTable"></tbody>
+    </table>
+  </div>
+</div>
+
+<div id="ipo" class="section">
+  <div class="card">
+    <div class="card-title">IPO Section</div>
+    <table>
+      <thead><tr><th>User</th><th>Company</th><th>Amount</th><th>Action</th></tr></thead>
+      <tbody id="ipoTable"></tbody>
     </table>
   </div>
 </div>
 
 <div id="admin" class="section">
   <div class="card">
-    <div class="card-title">Withdrawals</div>
-    <table>
-      <thead><tr><th>User</th><th>Amount</th><th>Date</th></tr></thead>
-      <tbody id="withdrawTable"></tbody>
-    </table>
+    <div class="card-title">Admin Login</div>
+    <input type="text" id="adminId" placeholder="Admin ID">
+    <input type="password" id="adminPass" placeholder="Password">
+    <button id="adminLoginBtn">Login</button>
+    <div id="adminPanel" style="display:none;margin-top:10px;">
+      <div>
+        <button id="marketUpBtn">Market Up</button>
+        <button id="marketDownBtn">Market Down</button>
+        <input type="number" id="marketAmount" placeholder="Enter Price Limit">
+        <button id="randomMarketBtn">Random Market</button>
+        <button id="stopMarketBtn">Stop Random</button>
+      </div>
+      <div style="margin-top:10px;">
+        <table>
+          <thead><tr><th>User</th><th>Profit/Loss</th></tr></thead>
+          <tbody id="userProfitTable"></tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -86,80 +107,110 @@ tabs.forEach(btn=>btn.addEventListener('click',()=>{
   document.getElementById(btn.dataset.target).classList.add('active');
 }));
 
-// ===== Fake Data =====
-let totalIncome=100000,totalLoss=5000;
-const incomeBars=document.getElementById('incomeBars');
-const lossBars=document.getElementById('lossBars');
-const totalIncomeEl=document.getElementById('totalIncome');
-const totalLossEl=document.getElementById('totalLoss');
-const moneyTable=document.getElementById('moneyTable');
-const withdrawTable=document.getElementById('withdrawTable');
-
-const users=[];
-for(let i=1;i<=200;i++) users.push('User'+i);
-
+// ===== Utility =====
 function random(min,max){return Math.floor(Math.random()*(max-min+1)+min);}
 
-// ===== Generate Graph Bars =====
-function createBars(container,count,red=false){
-  container.innerHTML='';
-  for(let i=0;i<count;i++){
-    const b=document.createElement('div');
-    b.className='bar'+(red?' red':'');
-    b.style.height=random(60,150)+'px';
-    container.appendChild(b);
-  }
-}
-createBars(incomeBars,30);
-createBars(lossBars,30,true);
+// ===== Users =====
+const users=[];
+for(let i=1;i<=150;i++){users.push({name:'User'+i,balance:100000,profit:0});}
 
-// ===== Generate Tables =====
-function generateMoneyFlow(){
-  moneyTable.innerHTML='';
-  let sampleUsers=users.sort(()=>0.5-Math.random()).slice(0,100);
-  sampleUsers.forEach(u=>{
-    const invest=random(5000,20000);
-    const profit=random(-5000,15000);
-    const row=`<tr><td>${u}</td><td>₹${invest}</td><td>₹${profit}</td></tr>`;
-    moneyTable.innerHTML+=row;
+// ===== Stocks =====
+const stocks=[];
+for(let i=1;i<=100;i++){stocks.push({name:'STK'+i,price:random(50,500)});}
+
+// ===== Stock Table =====
+const stockTable=document.getElementById('stockTable');
+function renderStocks(){
+  stockTable.innerHTML='';
+  stocks.forEach((s,index)=>{
+    const row=document.createElement('tr');
+    row.innerHTML=`<td>${s.name}</td>
+    <td>₹<span id="price${index}">${s.price}</span></td>
+    <td><button onclick="buyStock(${index})">Buy</button></td>
+    <td><button onclick="sellStock(${index})">Sell</button></td>`;
+    stockTable.appendChild(row);
   });
 }
+renderStocks();
 
-function generateWithdrawals(){
-  withdrawTable.innerHTML='';
-  let sampleUsers=users.sort(()=>0.5-Math.random()).slice(0,50);
-  sampleUsers.forEach(u=>{
-    const amt=random(10000,50000);
-    const date=new Date(Date.now()-random(0,5)*24*3600*1000).toLocaleDateString();
-    const row=`<tr><td>${u}</td><td>₹${amt}</td><td>${date}</td></tr>`;
-    withdrawTable.innerHTML+=row;
+// ===== Buy/Sell =====
+function buyStock(i){
+  const stock=stocks[i];
+  const user=users[random(0,users.length-1)];
+  if(user.balance<stock.price)return;
+  user.balance-=stock.price;
+  user.profit-=stock.price;
+}
+function sellStock(i){
+  const stock=stocks[i];
+  const user=users[random(0,users.length-1)];
+  user.balance+=stock.price;
+  user.profit+=stock.price;
+}
+
+// ===== IPO =====
+const ipoTable=document.getElementById('ipoTable');
+function renderIPO(){
+  ipoTable.innerHTML='';
+  users.slice(0,100).forEach(u=>{
+    const company='CMP'+random(1,50);
+    const amount=random(1000,5000);
+    const row=document.createElement('tr');
+    row.innerHTML=`<td>${u.name}</td><td>${company}</td><td>₹${amount}</td><td><button onclick="giveIPO('${u.name}',${amount})">Give</button></td>`;
+    ipoTable.appendChild(row);
   });
 }
+function giveIPO(u,a){}
 
-// ===== Update Dashboard =====
-function updateDashboard(){
-  totalIncome+=random(-5000,10000);
-  if(totalIncome<100000) totalIncome=100000;
-  totalLoss+=random(-2000,5000);
-  if(totalLoss<0) totalLoss=0;
-  totalIncomeEl.textContent='₹'+totalIncome;
-  totalLossEl.textContent='₹'+totalLoss;
-  
-  incomeBars.querySelectorAll('.bar').forEach(b=>b.style.height=random(60,150)+'px');
-  lossBars.querySelectorAll('.bar').forEach(b=>b.style.height=random(20,80)+'px');
+// ===== Market Bars =====
+const marketBars=document.getElementById('marketBars');
+function createBars(){marketBars.innerHTML='';for(let i=0;i<30;i++){const b=document.createElement('div');b.className='bar';b.style.height=random(50,150)+'px';marketBars.appendChild(b);}}
+createBars();
 
-  generateMoneyFlow();
-  generateWithdrawals();
+// ===== Update Stocks =====
+function updateStocks(){
+  stocks.forEach(s=>{
+    s.price+=random(-5,5);
+    if(s.price<10)s.price=10;
+  });
+  stocks.forEach((s,i)=>document.getElementById('price'+i).textContent=s.price);
+}
+setInterval(updateStocks,1000);
+
+// ===== Auto Random User Actions =====
+setInterval(()=>{
+  const user=users[random(0,users.length-1)];
+  const stock=stocks[random(0,stocks.length-1)];
+  if(Math.random()<0.5){
+    if(user.balance>=stock.price){user.balance-=stock.price;user.profit-=stock.price;}
+  }else{user.balance+=stock.price;user.profit+=stock.price;}
+},2000);
+
+// ===== Admin Login =====
+document.getElementById('adminLoginBtn').onclick=()=>{
+  const id=document.getElementById('adminId').value;
+  const pass=document.getElementById('adminPass').value;
+  if(id==='admin' && pass==='admin123'){document.getElementById('adminPanel').style.display='block';alert('Admin Access Granted');updateAdminPanel();}else{alert('Wrong Credentials');}
 }
 
-// ===== Initial =====
-generateMoneyFlow();
-generateWithdrawals();
-updateDashboard();
+// ===== Admin Panel =====
+const userProfitTable=document.getElementById('userProfitTable');
+function updateAdminPanel(){
+  userProfitTable.innerHTML='';
+  users.forEach(u=>{const row=document.createElement('tr');row.innerHTML=`<td>${u.name}</td><td>₹${u.profit}</td>`;userProfitTable.appendChild(row);});
+}
+setInterval(()=>{if(document.getElementById('adminPanel').style.display==='block')updateAdminPanel();},3000);
 
-// ===== Real-time Update Every 5 Seconds =====
-setInterval(updateDashboard,5000);
-
+// ===== Admin Market Controls =====
+let marketInterval=null;
+document.getElementById('marketUpBtn').onclick=()=>stocks.forEach(s=>s.price+=random(1,10));
+document.getElementById('marketDownBtn').onclick=()=>{
+  const amt=parseInt(document.getElementById('marketAmount').value)||10;
+  stocks.forEach(s=>s.price=Math.max(10,s.price-amt));
+}
+document.getElementById('randomMarketBtn').onclick=()=>{if(marketInterval)return;marketInterval=setInterval(()=>{stocks.forEach(s=>{s.price+=random(-10,10);if(s.price<10)s.price=10;});stocks.forEach((s,i)=>document.getElementById('price'+i).textContent=s.price);},1000);}
+document.getElementById('stopMarketBtn').onclick=()=>{clearInterval(marketInterval);marketInterval=null;}
 </script>
+
 </body>
 </html>
